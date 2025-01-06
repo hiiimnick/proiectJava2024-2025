@@ -1,0 +1,4 @@
+Id,Nume,Prenume,Grupa,An,Username,Password
+1,Ionescu,Andrei,731,1,ionescu.andrei@gmail.com,
+2,Popescu,Maria,732,3,popescu.maria@gmail.com,
+3,Popa,Ioana,732,2,popa.ioana@gmail.com,

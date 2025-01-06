@@ -1,0 +1,3 @@
+Id,Nume, Descriere,IdProfesor
+1,Rezistenta Materialelor,calculul reacţiunilor; calculul caracteristicilor geometrice ,1
+2,Informatica,Structuri de date si algoritmi,2
