@@ -17,5 +17,6 @@ public class Main extends Application {
         stage.show();
     }
 
-    //TODO: afla de ce da crash la rulare
+    //rezolvat, dadea crash din cauza
+    //ca nu exista login.fxml
 }
