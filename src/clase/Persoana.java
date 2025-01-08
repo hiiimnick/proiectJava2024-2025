@@ -24,6 +24,46 @@ public abstract class Persoana {
         this.pass = "";
     }
 
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public String getNume() {
+        return nume;
+    }
+
+    public void setNume(String nume) {
+        this.nume = nume;
+    }
+
+    public String getPrenume() {
+        return prenume;
+    }
+
+    public void setPrenume(String prenume) {
+        this.prenume = prenume;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
     @Override
     public String toString() {
         return "clase.Persoana{" +

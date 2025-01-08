@@ -10,4 +10,8 @@ public class Profesor extends Persoana {
         super(0, "", "", "", "");
     }
 
+    public int getId() {
+        return getID();
+    }
+
 }

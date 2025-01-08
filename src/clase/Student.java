@@ -32,4 +32,9 @@ public class Student extends Persoana {
     public void setAn(int an) {
         this.an = an;
     }
+
+    public int getId() {
+        return getID();
+    }
+
 }
