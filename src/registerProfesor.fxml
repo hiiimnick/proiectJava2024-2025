@@ -13,7 +13,7 @@
 
     <Label layoutX="251.0" layoutY="77.0" text="Prenume:" />
     <TextField fx:id="prenume" layoutX="308.0" layoutY="73.0" />
-    <Button fx:id="register" layoutX="184.0" layoutY="158.0" prefHeight="45.0" prefWidth="104.0" text="Register" />
+    <Button fx:id="registerProfesor" layoutX="184.0" layoutY="158.0" prefHeight="45.0" prefWidth="104.0" text="Register" />
 
     <Label alignment="CENTER" layoutX="35.0" layoutY="25.0" prefHeight="27.0" prefWidth="189.0" text="Register: Professor">
         <font>
