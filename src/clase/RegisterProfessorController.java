@@ -31,10 +31,10 @@ public class RegisterProfessorController {
         String userProfessor = this.user.getText();
         String parolaProfessor = encodePassword(this.pass.getText());
 
-        int nextId = getNextId("inputData/profesori.txt");
+        int nextId = getNextId("src/inputData/profesori.txt");
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("inputData/profesori.txt", true))) {
-            writer.write(numeProfessor + "," + prenumeProfessor + "," + userProfessor + "," + parolaProfessor);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/inputData/profesori.txt", true))) {
+            writer.write(nextId + "," + numeProfessor + "," + prenumeProfessor + "," + userProfessor + "," + parolaProfessor);
             writer.newLine();
             showAlert("Registration successful", "Professor registered successfully.");
         } catch (IOException e) {
@@ -63,6 +63,7 @@ public class RegisterProfessorController {
         int maxId = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
+            reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 int id = Integer.parseInt(parts[0]);

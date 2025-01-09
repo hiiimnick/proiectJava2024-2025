@@ -37,9 +37,9 @@ public class RegisterStudentController {
         String userStudent = this.user.getText();
         String parolaStudent = encodePassword(this.pass.getText());
 
-        int nextId = getNextId("inputData/studenti.txt");
+        int nextId = getNextId("src/inputData/studenti.txt");
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("inputData/studenti.txt", true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/inputData/studenti.txt", true))) {
             writer.write(nextId + "," + numeStudent + "," + prenumeStudent + "," + grupaStudent + "," + anStudent + "," + userStudent + "," + parolaStudent);
             writer.newLine();
             showAlert("Registration successful", "Student registered successfully.");
@@ -69,6 +69,7 @@ public class RegisterStudentController {
         int maxId = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
+            reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 int id = Integer.parseInt(parts[0]);

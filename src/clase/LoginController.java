@@ -9,8 +9,6 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class LoginController {
     @FXML
@@ -45,64 +43,41 @@ public class LoginController {
     }
 
     public void switchToProfesor() {
-            accountType.setText("Account Type: Profesor");
+        accountType.setText("Account Type: Profesor");
     }
 
     public void switchToStudent() {
-            accountType.setText("Account Type: Student");
+        accountType.setText("Account Type: Student");
     }
 
     public void login() {
-            String username = user.getText();
-            String password = pass.getText();
-            //momentan hardcoded sa fie admin admin
-            //o sa schimb la credentialele din fisier mai tarziu
-            //+ detectie daca e student sau profesor
-            //+ switch la fereastra corespunzatoare
-            if (username.equals("admin") && password.equals("admin")) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Login Status");
-                alert.setHeaderText(null);
-                alert.setContentText("Login successful");
-                alert.showAndWait();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Login Status");
-                alert.setHeaderText(null);
-                alert.setContentText("Login failed");
-                alert.showAndWait();
-            }
-            /* cum o sa arate codul dupa ce termin partea de password encoding
-        public void login() {
-            String username = user.getText();
-            String password = pass.getText();
-            boolean loginSuccessful = false;
+        String username = user.getText();
+        String password = pass.getText();
+        boolean loginSuccessful = false;
 
-            if (isProfessor) {
-                loginSuccessful = checkCredentials("inputData/profesori.txt", username, password);
-            } else {
-                loginSuccessful = checkCredentials("inputData/studenti.txt", username, password);
-            }
-
-            if (loginSuccessful) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Login Status");
-                alert.setHeaderText(null);
-                alert.setContentText("Login successful");
-                alert.showAndWait();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Login Status");
-                alert.setHeaderText(null);
-                alert.setContentText("Login failed");
-                alert.showAndWait();
-            }
+        if (isProfessor) {
+            loginSuccessful = checkCredentials("src/inputData/profesori.txt", username, password);
+        } else {
+            loginSuccessful = checkCredentials("src/inputData/studenti.txt", username, password);
         }
-            */
+
+        if (loginSuccessful) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Login Status");
+            alert.setHeaderText(null);
+            alert.setContentText("Login successful");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Login Status");
+            alert.setHeaderText(null);
+            alert.setContentText("Login failed");
+            alert.showAndWait();
+        }
     }
 
     public void register() {
-        if(isProfessor){
+        if (isProfessor) {
             registerProfesor();
         } else {
             registerStudent();
@@ -144,9 +119,13 @@ public class LoginController {
     private boolean checkCredentials(String filePath, String username, String password) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
+            String hashedPassword = PasswordUtils.encodePassword(password);
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");
-                if (data[1].trim().equals(username) && data[2].trim().equals(password)) {
+                if (!isProfessor && data[5].trim().equals(username) && data[6].trim().equals(hashedPassword)) {
+                    return true;
+                }
+                else if (data[3].trim().equals(username) && data[4].trim().equals(hashedPassword)) {
                     return true;
                 }
             }
@@ -155,21 +134,4 @@ public class LoginController {
         }
         return false;
     }
-
-    private String encodePassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hash = md.digest(password.getBytes());
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }

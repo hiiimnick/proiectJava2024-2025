@@ -15,3 +15,7 @@
 * Momentan Controllerul pentru profesor este bugged dar o sa fie fixat ori azi ori maine --REZOLVAT
 * Adaugat functionalitate FileDisplay
 * Adaugat CreateCoursesData() in FileDataManager
+
+09.01.2025
+* Trecut pe citirea din fisier pentru login si scrierea in fisier pentru register
+* Encodingul si decodingul parolei este functional (momentan toata lumea are parola test pentru simplicitate)
