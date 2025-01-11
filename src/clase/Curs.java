@@ -7,13 +7,15 @@ public class Curs {
     String nume;
     String descriere;
     int IDProfesor;
+    int anCurs;
     List<Nota> note = new ArrayList<>();
 
-    public Curs(int ID, String nume, String descriere, int IDProfesor) {
+    public Curs(int ID, String nume, String descriere, int IDProfesor, int anCurs) {
         this.ID = ID;
         this.nume = nume;
         this.descriere = descriere;
         this.IDProfesor = IDProfesor;
+        this.anCurs = anCurs;
     }
 
     public int getID() {
@@ -48,8 +50,16 @@ public class Curs {
         this.IDProfesor = IDProfesor;
     }
 
-    public void addNota(int studentId, int nota) {
-        note.add(new Nota(studentId, nota));
+    public int getAnCurs() {
+        return anCurs;
+    }
+
+    public void setAnCurs(int anCurs) {
+        this.anCurs = anCurs;
+    }
+
+    public void addNota(int IDCurs, int studentId, double nota) {
+        note.add(new Nota(IDCurs, studentId, nota));
     }
 
     @Override
@@ -59,6 +69,7 @@ public class Curs {
                 ", nume='" + nume + '\'' +
                 ", descriere='" + descriere + '\'' +
                 ", IDProfesor=" + IDProfesor +
+                ", anCurs=" + anCurs +
                 '}';
     }
 }

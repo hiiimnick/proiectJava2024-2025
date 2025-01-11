@@ -1,12 +1,22 @@
 package clase;
 
 public class Nota {
+    int idCurs;
     int studentId;
-    int nota;
+    double nota;
 
-    public Nota(int studentId, int nota) {
+    public Nota(int studentId, int idCurs, double nota) {
         this.studentId = studentId;
+        this.idCurs = idCurs;
         this.nota = nota;
+    }
+
+    public int getIdCurs() {
+        return idCurs;
+    }
+
+    public void setIdCurs(int idCurs) {
+        this.idCurs = idCurs;
     }
 
     public int getStudentId() {
@@ -17,11 +27,11 @@ public class Nota {
         this.studentId = studentId;
     }
 
-    public int getNota() {
+    public double getNota() {
         return nota;
     }
 
-    public void setNota(int nota) {
+    public void setNota(double nota) {
         this.nota = nota;
     }
 

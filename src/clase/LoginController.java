@@ -1,5 +1,6 @@
 package clase;
 
+import Controllers.dashboardControllers.DashboardStudentController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -67,6 +68,25 @@ public class LoginController {
             alert.setHeaderText(null);
             alert.setContentText("Login successful");
             alert.showAndWait();
+
+            Stage loginStage = (Stage) login.getScene().getWindow();
+            loginStage.hide();
+
+            try {
+                FXMLLoader loader;
+                if (isProfessor) {
+                    loader = new FXMLLoader(getClass().getResource("/FXML/dashboardProfesor.fxml"));
+                } else {
+                    loader = new FXMLLoader(getClass().getResource("/FXML/studentDashboard/dashboardStudent.fxml"));
+                    Stage dashboardStage = new Stage();
+                    dashboardStage.setScene(new Scene(loader.load()));
+                    DashboardStudentController controller = loader.getController();
+                    controller.setUsername(username); // Pass the username to the Dashboard controller
+                    dashboardStage.show();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Login Status");
@@ -86,7 +106,7 @@ public class LoginController {
 
     public void registerStudent() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/registerStudent.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/registerStudent.fxml"));
             Scene scene = new Scene(loader.load());
 
             RegisterStudentController controller = loader.getController();
@@ -102,7 +122,7 @@ public class LoginController {
 
     public void registerProfesor() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/registerProfesor.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/registerProfesor.fxml"));
             Scene scene = new Scene(loader.load());
 
             RegisterProfessorController controller = loader.getController();

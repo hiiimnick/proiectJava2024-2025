@@ -19,3 +19,15 @@
 09.01.2025
 * Trecut pe citirea din fisier pentru login si scrierea in fisier pentru register
 * Encodingul si decodingul parolei este functional (momentan toata lumea are parola test pentru simplicitate)
+
+10-11.01.2025
+* Cel mai puternic update de pana acum
+* Modificat clasa Curs deoarece lipsea atributul anCurs
+* Modificat functia de createCoursesData pentru a include si anul cursului si pentru a putea fi folosita in alte clase fara probleme
+* Modificat clasa LoginController pentru a putea da parse la username-ul studentului pentru a-i afla notele, cursurile etc
+* Adaugat template pentru thread-uri care v-a fi inclus dupa adaugarea functionalitatii in consola
+* Rezolvat bug-uri din clasa Nota
+* Adaugat cateva failsafe-uri in pagine de register
+* Adaugat pagina de dashboard pentru studenti cu toate functionalitatile necesare
+* Adaugat un testCase pentru a verifica citirea corecta a cursurilor in functia de createCoursesData
+* Facut putina curatenie de iarna in structura proiectului(nu este gata)

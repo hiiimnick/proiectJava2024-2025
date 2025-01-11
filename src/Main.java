@@ -3,19 +3,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 
 public class Main extends Application {
     public static void main(String[] args){
+
         launch();
     }
 
     @Override
+
     public void start(Stage stage) throws Exception {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/login.fxml"));
             Scene scene = new Scene(loader.load());
             stage.setScene(scene);
             stage.show();

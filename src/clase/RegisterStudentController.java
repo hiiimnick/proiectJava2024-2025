@@ -37,7 +37,13 @@ public class RegisterStudentController {
         String userStudent = this.user.getText();
         String parolaStudent = encodePassword(this.pass.getText());
 
+        if(emptyField()) {
+            showAlert("Registration failed", "Please fill in all fields.");
+            return;
+        }
+
         int nextId = getNextId("src/inputData/studenti.txt");
+
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/inputData/studenti.txt", true))) {
             writer.write(nextId + "," + numeStudent + "," + prenumeStudent + "," + grupaStudent + "," + anStudent + "," + userStudent + "," + parolaStudent);
@@ -81,6 +87,10 @@ public class RegisterStudentController {
             e.printStackTrace();
         }
         return maxId + 1;
+    }
+
+    private boolean emptyField() {
+        return nume.getText().isEmpty() || prenume.getText().isEmpty() || grupa.getText().isEmpty() || an.getText().isEmpty() || user.getText().isEmpty() || pass.getText().isEmpty();
     }
 
     private void showAlert(String title, String message) {
