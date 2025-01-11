@@ -31,3 +31,4 @@
 * Adaugat pagina de dashboard pentru studenti cu toate functionalitatile necesare
 * Adaugat un testCase pentru a verifica citirea corecta a cursurilor in functia de createCoursesData
 * Facut putina curatenie de iarna in structura proiectului(nu este gata)
+* Majoritatea functiilor au fost create in engleza, pentru simplicitate o sa le redenumesc inainte de finalizarea proiectului in romana
