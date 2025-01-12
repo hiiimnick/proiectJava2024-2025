@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="228.0" prefWidth="456.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.dashboardControllers.DashboardStudentController">
    <children>
-      <Label layoutX="129.0" layoutY="31.0" text="Student Dashboard">
+      <Label layoutX="123.0" layoutY="34.0" text="Student Dashboard">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
@@ -21,5 +20,6 @@
       <Button fx:id="medieButton" layoutX="237.0" layoutY="149.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="76.0" text="Medie" />
       <Button fx:id="restanteButton" layoutX="319.0" layoutY="149.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="76.0" text="Restante" />
       <Button fx:id="loadButton" layoutX="211.0" layoutY="102.0" mnemonicParsing="false" text="Continua" />
+      <Button fx:id="logoutButton" layoutX="293.0" layoutY="102.0" mnemonicParsing="false" text="Logout" />
    </children>
 </AnchorPane>

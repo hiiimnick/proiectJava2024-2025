@@ -12,7 +12,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class LoginController {
+public class LoginControllerGUI {
     @FXML
     private Label accountType;
     @FXML
@@ -29,7 +29,7 @@ public class LoginController {
     private boolean isProfessor = false;
 
     public void initialize() {
-        accountType.setText("Account Type: Student");
+        accountType.setText("Modul selectat: Student");
         schimbare.setOnAction(e -> switchMode());
         login.setOnAction(e -> login());
         register.setOnAction(e -> register());
@@ -45,7 +45,7 @@ public class LoginController {
     }
 
     public void switchToProfesor() {
-        accountType.setText("Account Type: Profesor");
+        accountType.setText("Modul selectat: Profesor");
     }
 
     public void switchToStudent() {
@@ -71,7 +71,7 @@ public class LoginController {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Login Status");
             alert.setHeaderText(null);
-            alert.setContentText("Login successful");
+            alert.setContentText("Login reusit!");
             alert.showAndWait();
 
             Stage loginStage = (Stage) login.getScene().getWindow();
@@ -101,7 +101,7 @@ public class LoginController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Login Status");
             alert.setHeaderText(null);
-            alert.setContentText("Login failed");
+            alert.setContentText("Login esuat!");
             alert.showAndWait();
         }
     }
@@ -142,7 +142,7 @@ public class LoginController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Error loading the application: " + e.getMessage());
+            System.out.println("Eroare in incarcarea paginii de inregistrare: " + e.getMessage());
         }
     }
 
@@ -158,7 +158,7 @@ public class LoginController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Error loading the application: " + e.getMessage());
+            System.out.println("Eroare in incarcarea paginii de inregistrare: " + e.getMessage());
         }
     }
 

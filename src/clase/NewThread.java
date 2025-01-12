@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
 public class NewThread extends Thread {
     private String exeName;
     private String threadType;
@@ -13,7 +14,7 @@ public class NewThread extends Thread {
         super(name);
         this.exeName = name;
         this.threadType = threadType;
-        System.out.println("New thread: " + this);
+        //System.out.println("New thread: " + this);
     }
 
     @Override
@@ -26,15 +27,9 @@ public class NewThread extends Thread {
     }
 
     private void runConsoleThread() {
-        try {
-            for (int i = 5; i > 0; i--) {
-                System.out.println("Console " + exeName + ": " + i);
-                Thread.sleep(1000);
-            }
-        } catch (InterruptedException e) {
-            System.out.println("Console " + exeName + " interrupted.");
-        }
-        System.out.println("Console " + exeName + " exiting.");
+        LoginControllerConsole loginControllerConsole = new LoginControllerConsole();
+
+        loginControllerConsole.start();
     }
 
     public static class GUIApplication extends Application {
@@ -47,7 +42,7 @@ public class NewThread extends Thread {
                 stage.show();
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("Error loading application: " + e.getMessage());
+                System.out.println("Eroare in incarcarea paginii de start: " + e.getMessage());
             }
         }
     }

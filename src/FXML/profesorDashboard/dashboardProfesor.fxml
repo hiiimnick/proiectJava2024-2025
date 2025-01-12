@@ -11,9 +11,10 @@
          <font>
             <Font name="System Bold" size="25.0" />
          </font></Label>
-      <Button fx:id="cursuriButton" layoutX="46.0" layoutY="115.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="139.0" text="Cursurile tale" />
-      <Button fx:id="studentiButton" layoutX="222.0" layoutY="115.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="139.0" text="Studentii inscrisi" />
-      <Button fx:id="noteButton" layoutX="388.0" layoutY="115.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="139.0" text="Noteaza un student" />
+      <Button fx:id="cursuriButton" layoutX="51.0" layoutY="85.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="139.0" text="Cursurile tale" />
+      <Button fx:id="studentiButton" layoutX="227.0" layoutY="85.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="139.0" text="Studentii inscrisi" />
+      <Button fx:id="noteButton" layoutX="393.0" layoutY="85.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="139.0" text="Noteaza un student" />
+      <Button fx:id="logoutButton" layoutX="270.0" layoutY="169.0" mnemonicParsing="false" text="Logout" />
     </children>
 
 </AnchorPane>

@@ -6,8 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import java.io.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class RegisterStudentController {
     @FXML
@@ -35,39 +33,22 @@ public class RegisterStudentController {
         String grupaStudent = this.grupa.getText();
         String anStudent = this.an.getText();
         String userStudent = this.user.getText();
-        String parolaStudent = encodePassword(this.pass.getText());
+        String parolaStudent = PasswordUtils.encodePassword(this.pass.getText());
 
         if(emptyField()) {
-            showAlert("Registration failed", "Please fill in all fields.");
+            showAlert("Inregistrarea a esuat!", "Te rog sa completezi toate campurile.");
             return;
         }
 
         int nextId = getNextId("src/inputData/studenti.txt");
 
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/inputData/studenti.txt", true))) {
             writer.write(nextId + "," + numeStudent + "," + prenumeStudent + "," + grupaStudent + "," + anStudent + "," + userStudent + "," + parolaStudent);
             writer.newLine();
-            showAlert("Registration successful", "Student registered successfully.");
+            showAlert("Inregistrare reusita!", "Student inregistrat cu succes.");
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Registration failed", "Failed to register student.");
-        }
-    }
-
-    private String encodePassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hash = md.digest(password.getBytes());
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            showAlert("Inregistrarea a esuat!", "Studentul nu a putut fi inregistrat.");
         }
     }
 

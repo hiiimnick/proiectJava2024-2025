@@ -6,8 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import java.io.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class RegisterProfessorController {
     @FXML
@@ -29,10 +27,10 @@ public class RegisterProfessorController {
         String numeProfessor = this.nume.getText();
         String prenumeProfessor = this.prenume.getText();
         String userProfessor = this.user.getText();
-        String parolaProfessor = encodePassword(this.pass.getText());
+        String parolaProfessor = PasswordUtils.encodePassword(this.pass.getText());
 
         if (emptyField()) {
-            showAlert("Registration failed", "Please fill in all fields.");
+            showAlert("Inregistrarea a esuat!", "Te rog sa completezi toate campurile.");
             return;
         }
 
@@ -41,26 +39,10 @@ public class RegisterProfessorController {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/inputData/profesori.txt", true))) {
             writer.write(nextId + "," + numeProfessor + "," + prenumeProfessor + "," + userProfessor + "," + parolaProfessor);
             writer.newLine();
-            showAlert("Registration successful", "Professor registered successfully.");
+            showAlert("Inregistrare reusita!", "Profesor inregistrat cu succes.");
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Registration failed", "Failed to register professor.");
-        }
-    }
-
-    private String encodePassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hash = md.digest(password.getBytes());
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            showAlert("Inregistrare esuata!", "Profesorul nu a putut fi inregistrat.");
         }
     }
 

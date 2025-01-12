@@ -39,6 +39,9 @@ public class DashboardStudentController {
     @FXML
     private Button restanteButton;
 
+    @FXML
+    private Button logoutButton;
+
     private List<Curs> loadedCourses;
     private StringBuilder loadedGrades;
     private String username;
@@ -56,13 +59,14 @@ public class DashboardStudentController {
         noteButton.setOnAction(event -> displayGrades());
         medieButton.setOnAction(event -> displayAverageGrade());
         restanteButton.setOnAction(event -> displayFailedCourses());
+        logoutButton.setOnAction(event -> logout());
     }
 
     public void setUsername(String username) {
         this.username = username; // Add this method
         this.studentId = getStudentIdByUsername(username);// Get the student ID based on the username
-        if(studentId == -1)
-            System.out.println("Something isn't right, check studenti.txt and functions associated to finding/setting studentids.");
+        if (studentId == -1)
+            System.out.println("Ceva nu este in regula, verificati studenti.txt si functiile asociate gasirii/setarii id-ului studentului.");
     }
 
     private int getStudentIdByUsername(String username) {
@@ -73,7 +77,7 @@ public class DashboardStudentController {
                 String[] parts = line.split(",");
                 if (parts[5].equals(username)) {
                     int studentId = Integer.parseInt(parts[0]);
-                    System.out.println("Found student ID: " + studentId); // Debug statement
+                    //System.out.println("Found student ID: " + studentId);
                     return studentId;
                 }
             }
@@ -87,9 +91,9 @@ public class DashboardStudentController {
         String anSelectat = anUniversitar.getText();
         if (anSelectat.isEmpty() || Integer.parseInt(anSelectat) > 4) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invalid Year");
+            alert.setTitle("An invalid");
             alert.setHeaderText(null);
-            alert.setContentText("Please input a correct year (1-4).");
+            alert.setContentText("Anul universitar selectat nu este valid (1-4).");
             alert.showAndWait();
             return;
         }
@@ -112,11 +116,11 @@ public class DashboardStudentController {
                             .filter(curs -> curs.getID() == courseId)
                             .map(Curs::getNume)
                             .findFirst()
-                            .orElse("Unknown Course");
-                    loadedGrades.append("Course: ").append(courseName)
-                            .append(", Grade: ").append(parts[2])
+                            .orElse("Curs necunoscut");
+                    loadedGrades.append("Curs: ").append(courseName)
+                            .append(", Nota: ").append(parts[2])
                             .append("\n");
-                    System.out.println("Course: " + courseName + ", Grade: " + parts[2]); // Debug statement
+                    //System.out.println("Course: " + courseName + ", Grade: " + parts[2]);
                 }
             }
         } catch (IOException e) {
@@ -138,7 +142,7 @@ public class DashboardStudentController {
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
             DisplayController controller = loader.getController();
-            controller.setCourses("Your courses: " + String.join(", ", coursesName));
+            controller.setCourses("Cursurile tale: " + String.join(", ", coursesName));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -164,10 +168,10 @@ public class DashboardStudentController {
         int count = 0;
 
         for (String line : gradesLines) {
-            String[] parts = line.split(", Grade: ");
+            String[] parts = line.split(", Nota: ");
             if (parts.length == 2) {
                 double grade = Double.parseDouble(parts[1]);
-                if (grade != 0) {
+                if (grade != 0 && grade > 4) {
                     totalGrades += grade;
                     count++;
                 }
@@ -176,9 +180,9 @@ public class DashboardStudentController {
 
         double averageGrade = (count > 0) ? totalGrades / count : 0;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Average Grade");
+        alert.setTitle("Media ta");
         alert.setHeaderText(null);
-        alert.setContentText("Your average grade is: " + averageGrade);
+        alert.setContentText("Media ta este: " + averageGrade);
         alert.showAndWait();
     }
 
@@ -187,20 +191,37 @@ public class DashboardStudentController {
         StringBuilder failedCourses = new StringBuilder();
 
         for (String line : gradesLines) {
-            String[] parts = line.split(", Grade: ");
+            String[] parts = line.split(", Nota: ");
             if (parts.length == 2) {
                 double grade = Double.parseDouble(parts[1]);
                 if (grade <= 4) {
-                    String courseName = line.split(", Grade: ")[0].replace("Course: ", "");
+                    String courseName = parts[0].replace("Curs: ", "");
                     failedCourses.append(courseName).append("\n");
                 }
             }
         }
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Failed Courses");
+        alert.setTitle("Restante");
         alert.setHeaderText(null);
-        alert.setContentText(failedCourses.length() > 0 ? failedCourses.toString() : "No failed courses.");
+        alert.setContentText(failedCourses.length() > 0 ? failedCourses.toString() : "Fara restante.");
         alert.showAndWait();
+    }
+
+    private void logout() {
+        Stage stage = (Stage) logoutButton.getScene().getWindow();
+        stage.close();
+        showLoginScreen();
+    }
+
+    private void showLoginScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/login.fxml"));
+            Stage loginStage = new Stage();
+            loginStage.setScene(new Scene(loader.load()));
+            loginStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
