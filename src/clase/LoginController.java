@@ -1,5 +1,6 @@
 package clase;
 
+import Controllers.dashboardControllers.DashboardProfesorController;
 import Controllers.dashboardControllers.DashboardStudentController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -55,9 +56,13 @@ public class LoginController {
         String username = user.getText();
         String password = pass.getText();
         boolean loginSuccessful = false;
+        int professorID = -1;
 
         if (isProfessor) {
             loginSuccessful = checkCredentials("src/inputData/profesori.txt", username, password);
+            if (loginSuccessful) {
+                professorID = getProfessorIdByUsername(username);
+            }
         } else {
             loginSuccessful = checkCredentials("src/inputData/studenti.txt", username, password);
         }
@@ -75,13 +80,18 @@ public class LoginController {
             try {
                 FXMLLoader loader;
                 if (isProfessor) {
-                    loader = new FXMLLoader(getClass().getResource("/FXML/dashboardProfesor.fxml"));
+                    loader = new FXMLLoader(getClass().getResource("/FXML/profesorDashboard/dashboardProfesor.fxml"));
+                    Stage dashboardStage = new Stage();
+                    dashboardStage.setScene(new Scene(loader.load()));
+                    DashboardProfesorController controller = loader.getController();
+                    controller.setProfessorID(professorID);
+                    dashboardStage.show();
                 } else {
                     loader = new FXMLLoader(getClass().getResource("/FXML/studentDashboard/dashboardStudent.fxml"));
                     Stage dashboardStage = new Stage();
                     dashboardStage.setScene(new Scene(loader.load()));
                     DashboardStudentController controller = loader.getController();
-                    controller.setUsername(username); // Pass the username to the Dashboard controller
+                    controller.setUsername(username);
                     dashboardStage.show();
                 }
             } catch (IOException e) {
@@ -94,6 +104,22 @@ public class LoginController {
             alert.setContentText("Login failed");
             alert.showAndWait();
         }
+    }
+
+    private int getProfessorIdByUsername(String username) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/inputData/profesori.txt"))) {
+            String line;
+            reader.readLine(); // Skip header
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts[3].equals(username)) {
+                    return Integer.parseInt(parts[0]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return -1; // Return -1 if the professor ID is not found
     }
 
     public void register() {

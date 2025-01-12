@@ -1,5 +1,5 @@
 Id,Nume,Prenume,Grupa,An,Username,Password
-1,Ionescu,Andrei,731,1,ionescu.andrei@gmail.com,9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
+1,Ionescu,Andrei,731,2,ionescu.andrei@gmail.com,9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
 2,Popescu,Maria,732,3,popescu.maria@gmail.com,9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
 3,Popa,Ioana,732,2,popa.ioana@gmail.com,9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
 4,Nick,test,731,1,nickcark@gmail.com,9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08

@@ -4,3 +4,4 @@ IdCurs,IdStudent,Nota
 2,1,8
 3,1,9
 4,1,3
+1,1,3.0

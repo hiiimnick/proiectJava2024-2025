@@ -64,6 +64,11 @@ public abstract class Persoana {
         this.pass = pass;
     }
 
+    public String getNumeComplet(){
+        String numeComplet = this.nume + " " + this.prenume;
+        return numeComplet;
+    }
+
     @Override
     public String toString() {
         return "clase.Persoana{" +

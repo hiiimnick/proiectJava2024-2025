@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="221.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.dashboardControllers.DashboardProfesorController">
+    <children>
+        <Label layoutX="174.0" layoutY="31.0" text="Profesor Dashboard">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font></Label>
+      <Button fx:id="cursuriButton" layoutX="46.0" layoutY="115.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="139.0" text="Cursurile tale" />
+      <Button fx:id="studentiButton" layoutX="222.0" layoutY="115.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="139.0" text="Studentii inscrisi" />
+      <Button fx:id="noteButton" layoutX="388.0" layoutY="115.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="139.0" text="Noteaza un student" />
+    </children>
+
+</AnchorPane>

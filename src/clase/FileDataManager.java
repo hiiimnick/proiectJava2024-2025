@@ -52,6 +52,7 @@ public class FileDataManager {
             BufferedReader coursesReader = new BufferedReader(new FileReader(courseFile));
             String line;
             coursesReader.readLine();
+            List<Student> students = createStudentsData();
             while ((line = coursesReader.readLine()) != null) {
                 String[] data = line.split(",");
                 Curs curs = new Curs(Integer.parseInt(data[0].trim()),
@@ -59,6 +60,11 @@ public class FileDataManager {
                         data[2].trim(),
                         Integer.parseInt(data[3].trim()),
                         Integer.parseInt(data[4].trim()));
+                for (Student student : students) {
+                    if (student.getCursuri().contains(curs)) {
+                        curs.addStudent(student);
+                    }
+                }
                 courses.add(curs);
             }
             coursesReader.close();

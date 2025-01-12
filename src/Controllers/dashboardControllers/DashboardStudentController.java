@@ -138,7 +138,7 @@ public class DashboardStudentController {
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
             DisplayController controller = loader.getController();
-            controller.setCourses(String.join(", ", coursesName));
+            controller.setCourses("Your courses: " + String.join(", ", coursesName));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -8,6 +8,7 @@ public class Curs {
     String descriere;
     int IDProfesor;
     int anCurs;
+    Set<Student> studenti = new HashSet<>();
     List<Nota> note = new ArrayList<>();
 
     public Curs(int ID, String nume, String descriere, int IDProfesor, int anCurs) {
@@ -56,6 +57,14 @@ public class Curs {
 
     public void setAnCurs(int anCurs) {
         this.anCurs = anCurs;
+    }
+
+    public Set<Student> getStudenti() {
+        return studenti;
+    }
+
+    public void addStudent(Student student) {
+        studenti.add(student);
     }
 
     public void addNota(int IDCurs, int studentId, double nota) {
