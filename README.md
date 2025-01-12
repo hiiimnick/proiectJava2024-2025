@@ -38,5 +38,6 @@
 * Tradus tot textul vizibil in romana(99% acuratete)
 * Adaugat threaduri si functionalitatea de a rula aplicatia in consola
 * Adaugat butoane de logout
-* BUGURI CUNOSCUTE: - Nu sunt destule check-uri facute in GUI pentru a preveni erori in inregistrarea si logarea studentilor/profesorilor.(ex: username-ul deja existent)
+* BUGURI CUNOSCUTE:
+*                   - Nu sunt destule check-uri facute in GUI pentru a preveni erori in inregistrarea si logarea studentilor/profesorilor.(ex: username-ul deja existent)
 *                   - Notele studentilor nu sunt initializate cu null (sau create cu null) la inregistrare / inscrierea in cursuri.
