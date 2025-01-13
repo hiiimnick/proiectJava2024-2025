@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,7 +49,7 @@ public class DashboardProfesorController {
     }
 
     private void loadProfessorData() {
-        FileDataManager fileDataManager = new FileDataManager();
+        FileDataManager fileDataManager = FileDataManager.getInstance();
         loadedCourses = fileDataManager.createCoursesData().stream()
                 .filter(curs -> curs.getIDProfesor() == professorID)
                 .collect(Collectors.toList());
@@ -107,7 +107,6 @@ public class DashboardProfesorController {
         if (loadedCourses.size() == 1) {
             showGradeInputForCourse(loadedCourses.get(0));
         } else {
-            // Show a dialog to select a course
             ChoiceDialog<Curs> dialog = new ChoiceDialog<>(loadedCourses.get(0), loadedCourses);
             dialog.setTitle("Selecteaza cursul");
             dialog.setHeaderText("Selecteaza cursul pentru a adauga note:");
@@ -139,6 +138,7 @@ public class DashboardProfesorController {
             gradeDialog.setContentText("Nota:");
 
             gradeDialog.showAndWait().ifPresent(grade -> {
+                System.out.println("Input grade: " + grade); // Debugging statement
                 try {
                     double gradeValue = Double.parseDouble(grade);
                     if (gradeValue < 0 || gradeValue > 10) {
@@ -146,14 +146,65 @@ public class DashboardProfesorController {
                         return;
                     }
 
-                    // Add the grade to the student
-                    student.addGrade(course, gradeValue);
+                    updateGradeInFile(course.getID(), student.getID(), gradeValue);
                     showAlert("Success", "Nota a fost adaugata cu succes.");
                 } catch (NumberFormatException e) {
+                    e.printStackTrace(); // Debugging statement
                     showAlert("Nota invalida", "Nota trebuie sa fie un numar.");
                 }
             });
         });
+    }
+
+    private void updateGradeInFile(int courseId, int studentId, double grade) {
+        File inputFile = new File("src/inputData/note.txt");
+        File tempFile = new File("src/inputData/note_temp.txt");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+            String line = reader.readLine();
+            if (line != null) {
+                writer.write(line); // Write the header line
+                writer.newLine();
+            }
+
+            while ((line = reader.readLine()) != null) {
+                System.out.println("Reading line: " + line); // Debugging statement
+                String[] parts = line.split(",");
+                if (parts.length != 3) {
+                    System.out.println("Invalid line format: " + line); // Debugging statement
+                    continue;
+                }
+                int currentCourseId;
+                int currentStudentId;
+                try {
+                    currentCourseId = Integer.parseInt(parts[0]);
+                    currentStudentId = Integer.parseInt(parts[1]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Error parsing course or student ID: " + line); // Debugging statement
+                    continue;
+                }
+                String currentGrade = parts[2];
+
+                if (currentCourseId == courseId && currentStudentId == studentId && "0".equals(currentGrade)) {
+                    writer.write(courseId + "," + studentId + "," + grade);
+                } else {
+                    writer.write(line);
+                }
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Eroare in adaugarea notei.");
+        }
+
+        if (!inputFile.delete()) {
+            System.out.println("Eroare la stergerea fisierului original.");
+            return;
+        }
+        if (!tempFile.renameTo(inputFile)) {
+            System.out.println("Eroare la redenumirea fisierului temporar.");
+        }
     }
 
     private void logout() {

@@ -34,6 +34,11 @@ public class RegisterProfessorController {
             return;
         }
 
+        if (!isProfessorInfoUnique(userProfessor)) {
+            showAlert("Inregistrarea a esuat!", "Utilizatorul exista deja.");
+            return;
+        }
+
         int nextId = getNextId("src/inputData/profesori.txt");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/inputData/profesori.txt", true))) {
@@ -65,7 +70,28 @@ public class RegisterProfessorController {
     }
 
     private boolean emptyField() {
-        return nume.getText().isEmpty() || prenume.getText().isEmpty() || user.getText().isEmpty() || pass.getText().isEmpty();
+        return nume.getText().isEmpty() ||
+                prenume.getText().isEmpty() ||
+                user.getText().isEmpty() ||
+                pass.getText().isEmpty() ||
+                !nume.getText().matches("^[a-zA-Z]*$") ||
+                !prenume.getText().matches("^[a-zA-Z]*$");
+    }
+
+    private boolean isProfessorInfoUnique(String user) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/inputData/profesori.txt"))) {
+            String line;
+            reader.readLine(); // Skip header
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts[3].equalsIgnoreCase(user)) {
+                    return false;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     private void showAlert(String title, String message) {

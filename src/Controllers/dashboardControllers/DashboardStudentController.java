@@ -98,7 +98,7 @@ public class DashboardStudentController {
             return;
         }
 
-        FileDataManager fileDataManager = new FileDataManager();
+        FileDataManager fileDataManager = FileDataManager.getInstance();
         loadedCourses = fileDataManager.createCoursesData().stream()
                 .filter(curs -> Integer.toString(curs.getAnCurs()).equals(anSelectat))
                 .collect(Collectors.toList());

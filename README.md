@@ -38,5 +38,12 @@
 * Tradus tot textul vizibil in romana(99% acuratete)
 * Adaugat threaduri si functionalitatea de a rula aplicatia in consola
 * Adaugat butoane de logout
-* BUGURI CUNOSCUTE: - Nu sunt destule check-uri facute in GUI pentru a preveni erori in inregistrarea si logarea studentilor/profesorilor.(ex: username-ul deja existent)
-                    - Notele studentilor nu sunt initializate cu null (sau create cu null) la inregistrare / inscrierea in cursuri.
+* BUGURI CUNOSCUTE: - Teoretic nu mai sunt buguri cunoscute.
+
+13.01.2025
+* Adaugat check-uri sa nu fie user identici, sa nu fie cu cifre numele sau cu litere anul si grupa.
+* Adaugat ca la inregistrarea unui student, sa i se adauge in fisierul de note o nota de 0 pentru fiecare curs din anul introdus.
+* (ISSUE) Studentii creati inainte de schimbare(adica unul singur dar totusi) nu o sa pot avea note, se poate rezolva prin stergerea si inregistrarea din nou a studentului.
+* Schimbat logica de notare pentru a edita notele studentilor cu 0 din fisier.
+* Facut clasa FileDataManager sa fie singleton pentru a se putea crea instante din aceasta(nu mergea folosita pe amandoua threadurile)
+* bis

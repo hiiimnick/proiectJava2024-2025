@@ -84,6 +84,12 @@ public class LoginControllerConsole {
     public void register(Scanner scanner) {
         System.out.print("Introdu username-ul: ");
         String username = scanner.nextLine();
+
+        if (!isUsernameUnique(isProfessor ? "src/inputData/profesori.txt" : "src/inputData/studenti.txt", username)) {
+            System.out.println("Utilizatorul exista deja.");
+            return;
+        }
+
         System.out.print("Introdu parola: ");
         String password = scanner.nextLine();
 
@@ -92,14 +98,14 @@ public class LoginControllerConsole {
         if (isProfessor) {
             System.out.print("Introdu numele: ");
             String nume = scanner.nextLine();
-            if (nume.isEmpty()) {
+            if (nume.isEmpty() || !nume.matches("^[a-zA-Z]*$")) {
                 System.out.println("Nume invalid.");
                 return;
             }
 
             System.out.print("Introdu prenumele: ");
             String prenume = scanner.nextLine();
-            if (prenume.isEmpty()) {
+            if ((prenume.isEmpty() || !prenume.matches("^[a-zA-Z]*$"))) {
                 System.out.println("Prenume invalid.");
                 return;
             }
@@ -116,28 +122,28 @@ public class LoginControllerConsole {
         } else {
             System.out.print("Introdu numele: ");
             String nume = scanner.nextLine();
-            if (nume.isEmpty()) {
+            if (nume.isEmpty() || !nume.matches("^[a-zA-Z]*$")) {
                 System.out.println("Nume invalid.");
                 return;
             }
 
             System.out.print("Introdu prenumele: ");
             String prenume = scanner.nextLine();
-            if (prenume.isEmpty()) {
+            if (prenume.isEmpty() || !prenume.matches("^[a-zA-Z]*$")) {
                 System.out.println("Prenume invalid.");
                 return;
             }
 
             System.out.print("Introdu grupa: ");
             String grupa = scanner.nextLine();
-            if (grupa.isEmpty()) {
+            if (grupa.isEmpty() || !grupa.matches("\\d+")) {
                 System.out.println("Grupa invalida.");
                 return;
             }
 
             System.out.print("Introdu anul universitar curent (1-4): ");
             String an = scanner.nextLine();
-            if (an.isEmpty()) {
+            if (an.isEmpty() || Integer.parseInt(an) < 1 || Integer.parseInt(an) > 4 || !an.matches("\\d+")) {
                 System.out.println("An invalid. Te rog introdu un an valid (1-4).");
                 return;
             }
@@ -147,6 +153,7 @@ public class LoginControllerConsole {
                 writer.write(nextId + "," + nume + "," + prenume + "," + grupa + "," + an + "," + username + "," + hashedPassword);
                 writer.newLine();
                 System.out.println("Student inregistrat cu succes.");
+                addNullGradesForStudentCourses(nextId, Integer.parseInt(an));
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Eroare in inregistrarea studentului.");
@@ -170,6 +177,38 @@ public class LoginControllerConsole {
             e.printStackTrace();
         }
         return maxId + 1;
+    }
+
+    private boolean isUsernameUnique(String filePath, String username) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            reader.readLine(); // Skip header
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts[3].equalsIgnoreCase(username) || parts[5].equalsIgnoreCase(username)) {
+                    return false;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    private void addNullGradesForStudentCourses(int studentId, int studentYear) {
+        FileDataManager fileDataManager = FileDataManager.getInstance();
+        List<Curs> courses = fileDataManager.createCoursesData();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/inputData/note.txt", true))) {
+            for (Curs course : courses) {
+                if (course.getAnCurs() == studentYear) {
+                    writer.write(course.getID() + "," + studentId + ",0");
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private int getProfessorIdByUsername(String username) {
@@ -249,7 +288,7 @@ public class LoginControllerConsole {
     }
 
     private List<Curs> loadCoursesForYear(String year) {
-        FileDataManager fileDataManager = new FileDataManager();
+        FileDataManager fileDataManager = FileDataManager.getInstance();
         return fileDataManager.createCoursesData().stream()
                 .filter(curs -> Integer.toString(curs.getAnCurs()).equals(year))
                 .collect(Collectors.toList());
@@ -382,7 +421,7 @@ public class LoginControllerConsole {
     }
 
     private List<String> getStudentNamesForCourse(Curs course) {
-        FileDataManager fileDataManager = new FileDataManager();
+        FileDataManager fileDataManager = FileDataManager.getInstance();
         List<Student> loadedStudents = fileDataManager.createStudentsData();
         return loadedStudents.stream()
                 .filter(student -> student.getAn() == course.getAnCurs())
@@ -455,24 +494,65 @@ public class LoginControllerConsole {
     }
 
     private void addGrade(int courseId, int studentId, int grade) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/inputData/note.txt", true))) {
-            writer.write(courseId + "," + studentId + "," + grade);
-            writer.newLine();
+        File inputFile = new File("src/inputData/note.txt");
+        File tempFile = new File("src/inputData/note_temp.txt");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+            String line = reader.readLine();
+            if (line != null) {
+                writer.write(line); // Write the header line
+                writer.newLine();
+            }
+
+            boolean gradeUpdated = false;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length != 3) {
+                    writer.write(line);
+                    writer.newLine();
+                    continue;
+                }
+                int currentCourseId = Integer.parseInt(parts[0]);
+                int currentStudentId = Integer.parseInt(parts[1]);
+                String currentGrade = parts[2];
+
+                if (currentCourseId == courseId && currentStudentId == studentId && "0".equals(currentGrade)) {
+                    writer.write(courseId + "," + studentId + "," + grade);
+                    gradeUpdated = true;
+                } else {
+                    writer.write(line);
+                }
+                writer.newLine();
+            }
+
+            if (!gradeUpdated) {
+                writer.write(courseId + "," + studentId + "," + grade);
+                writer.newLine();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Eroare in adaugarea notei.");
         }
+
+        if (!inputFile.delete()) {
+            System.out.println("Eroare la stergerea fisierului original.");
+            return;
+        }
+        if (!tempFile.renameTo(inputFile)) {
+            System.out.println("Eroare la redenumirea fisierului temporar.");
+        }
     }
 
     private List<Curs> loadCoursesForProfessor(int professorId) {
-        FileDataManager fileDataManager = new FileDataManager();
+        FileDataManager fileDataManager = FileDataManager.getInstance();
         return fileDataManager.createCoursesData().stream()
                 .filter(curs -> curs.getIDProfesor() == professorId)
                 .collect(Collectors.toList());
     }
 
     private List<Student> loadStudentsForCourse(Curs course) {
-        FileDataManager fileDataManager = new FileDataManager();
+        FileDataManager fileDataManager = FileDataManager.getInstance();
         return fileDataManager.createStudentsData().stream()
                 .filter(student -> student.getAn() == course.getAnCurs())
                 .collect(Collectors.toList());

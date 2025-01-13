@@ -5,12 +5,24 @@ import java.util.*;
 
 public class FileDataManager {
 
-    File studentFile = new File("src/inputData/studenti.txt");
-    File profesorFile = new File("src/inputData/profesori.txt");
-    File cursuriFile = new File("src/inputData/cursuri.txt");
-    File noteFile = new File("src/inputData/note.txt");
+    private static FileDataManager instance;
+    private final File studentFile = new File("src/inputData/studenti.txt");
+    private final File profesorFile = new File("src/inputData/profesori.txt");
+    private final File cursuriFile = new File("src/inputData/cursuri.txt");
+    private final File noteFile = new File("src/inputData/note.txt");
 
-    public List<Student> createStudentsData() {
+    private FileDataManager() {
+        // Private constructor to prevent instantiation
+    }
+
+    public static synchronized FileDataManager getInstance() {
+        if (instance == null) {
+            instance = new FileDataManager();
+        }
+        return instance;
+    }
+
+    public synchronized List<Student> createStudentsData() {
         List<Student> studenti = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(studentFile));
@@ -28,7 +40,7 @@ public class FileDataManager {
         return studenti;
     }
 
-    public List<Profesor> createProfessorsData() {
+    public synchronized List<Profesor> createProfessorsData() {
         List<Profesor> profesori = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(profesorFile));
@@ -46,7 +58,7 @@ public class FileDataManager {
         return profesori;
     }
 
-    public List<Curs> createCoursesData() {
+    public synchronized List<Curs> createCoursesData() {
         List<Curs> cursuri = new ArrayList<>();
         try {
             BufferedReader cursuriReader = new BufferedReader(new FileReader(cursuriFile));
