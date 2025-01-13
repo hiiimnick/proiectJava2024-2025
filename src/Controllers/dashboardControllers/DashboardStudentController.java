@@ -141,6 +141,7 @@ public class DashboardStudentController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/studentDashboard/display.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
+            stage.setTitle("Cursuri");
             DisplayController controller = loader.getController();
             controller.setCourses("Cursurile tale: " + String.join(", ", coursesName));
             stage.show();
@@ -154,6 +155,7 @@ public class DashboardStudentController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/studentDashboard/display.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
+            stage.setTitle("Note");
             DisplayController controller = loader.getController();
             controller.setCourses(loadedGrades.toString());
             stage.show();

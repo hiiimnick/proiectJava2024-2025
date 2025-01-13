@@ -64,6 +64,7 @@ public class DashboardProfesorController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/profesorDashboard/display.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
+            stage.setTitle("Cursuri");
             DisplayController controller = loader.getController();
             controller.setCourses("Cursurile pe care le predai: " + String.join(", ", coursesName));
             stage.show();
@@ -96,6 +97,7 @@ public class DashboardProfesorController {
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
             DisplayController controller = loader.getController();
+            stage.setTitle("Studenti");
             controller.setCourses("Studenti in: " + course.getNume() + ": " + String.join(", ", studentNames));
             stage.show();
         } catch (IOException e) {

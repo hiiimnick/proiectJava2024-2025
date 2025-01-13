@@ -39,6 +39,7 @@ public class NewThread extends Thread {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/login.fxml"));
                 Scene scene = new Scene(loader.load());
                 stage.setScene(scene);
+                stage.setTitle("Login");
                 stage.show();
             } catch (Exception e) {
                 e.printStackTrace();
