@@ -5,6 +5,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="468.0" prefWidth="496.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clase.LoginControllerGUI">
     <Label alignment="CENTER" layoutX="127.0" layoutY="137.0" prefHeight="25.0" prefWidth="60.0" text="Username:" textAlignment="CENTER" />
@@ -18,4 +19,9 @@
     <Button fx:id="schimbare" layoutX="191.0" layoutY="271.0" prefHeight="45.0" prefWidth="104.0" text="Switch" />
 
     <Label fx:id="accountType" alignment="CENTER" layoutX="174.0" layoutY="327.0" prefHeight="17.0" prefWidth="149.0" />
+   <Label layoutX="217.0" layoutY="46.0" text="Login">
+      <font>
+         <Font name="System Bold" size="24.0" />
+      </font>
+   </Label>
 </AnchorPane>

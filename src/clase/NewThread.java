@@ -40,6 +40,7 @@ public class NewThread extends Thread {
                 Scene scene = new Scene(loader.load());
                 stage.setScene(scene);
                 stage.setTitle("Login");
+                stage.setOnCloseRequest(event -> System.out.println("Iesire... (daca nu a iesit, Consola e inca pornita)"));
                 stage.show();
             } catch (Exception e) {
                 e.printStackTrace();

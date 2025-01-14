@@ -84,6 +84,7 @@ public class LoginControllerGUI {
                     Stage dashboardStage = new Stage();
                     dashboardStage.setScene(new Scene(loader.load()));
                     DashboardProfesorController controller = loader.getController();
+                    dashboardStage.setOnCloseRequest(event -> System.out.println("Iesire... (daca nu a iesit, Consola e inca pornita)"));
                     dashboardStage.setTitle("Dashboard Profesor");
                     controller.setProfessorID(professorID);
                     dashboardStage.show();
@@ -92,6 +93,7 @@ public class LoginControllerGUI {
                     Stage dashboardStage = new Stage();
                     dashboardStage.setScene(new Scene(loader.load()));
                     DashboardStudentController controller = loader.getController();
+                    dashboardStage.setOnCloseRequest(event -> System.out.println("Iesire... (daca nu a iesit, Consola e inca pornita)"));
                     dashboardStage.setTitle("Dashboard Student");
                     controller.setUsername(username);
                     dashboardStage.show();
